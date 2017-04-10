@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+}
+
+apply from: 'gradle/google-java-format.gradle'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    compile 'com.google.guava:guava:20.0'
+    testCompile 'junit:junit:4.12'
+}

@@ -1,0 +1,14 @@
+
+configurations {
+    googlejavaformat
+}
+
+dependencies {
+    googlejavaformat 'com.google.googlejavaformat:google-java-format:1.3'
+}
+
+task googleJavaFormat(type: JavaExec) {
+    classpath = configurations.googlejavaformat
+    main = 'com.google.googlejavaformat.java.Main'
+    args = ['-i'] + fileTree(dir: 'src', include: '**/*.java')
+}
