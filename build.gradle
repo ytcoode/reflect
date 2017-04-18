@@ -1,18 +1,86 @@
 plugins {
-    id 'java'
+  id 'java'
+  id 'maven'
+  id 'signing'
 }
 
 apply from: 'gradle/google-java-format.gradle'
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
-
 repositories {
-    jcenter()
+  mavenLocal()
+  mavenCentral()
 }
 
 dependencies {
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
-    compile 'com.google.guava:guava:20.0'
-    testCompile 'junit:junit:4.12'
+  compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+  compile 'com.google.guava:guava:20.0'
+  testCompile 'junit:junit:4.12'
+}
+
+group = "io.ytcode"
+version = "0.1.0"
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+task javadocJar(type: Jar) {
+  classifier = 'javadoc'
+  from javadoc
+}
+
+task sourcesJar(type: Jar) {
+  classifier = 'sources'
+  from sourceSets.main.allSource
+}
+
+artifacts {
+  archives javadocJar, sourcesJar
+}
+
+signing {
+  sign configurations.archives
+}
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+        authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+        authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      pom.project {
+        name 'reflect'
+        packaging 'jar'
+        description 'Java reflection utilities.'
+        url 'https://github.com/wangyuntao/reflect'
+
+        scm {
+          connection 'scm:git:git://github.com/wangyuntao/reflect.git'
+          developerConnection 'scm:git:ssh://github.com/wangyuntao/reflect.git'
+          url 'https://github.com/wangyuntao/reflect'
+        }
+
+        licenses {
+          license {
+            name 'The Apache License, Version 2.0'
+            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+          }
+        }
+
+        developers {
+          developer {
+            id 'wangyuntao'
+            name 'wangyuntao'
+            email 'wyt.daily@gmail.com'
+          }
+        }
+      }
+    }
+  }
 }
