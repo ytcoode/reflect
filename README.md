@@ -4,7 +4,17 @@ Using it you now can scan your classpath, get resources, classes, fields, method
 
 It's immutable, fluent, simple, inspired by Guava [ClassPath](https://github.com/google/guava/blob/master/guava/src/com/google/common/reflect/ClassPath.java) and [reflections](https://github.com/ronmamo/reflections).
 
-## Usage
+### Maven
+
+```xml
+<dependency>
+    <groupId>io.ytcode</groupId>
+    <artifactId>reflect</artifactId>
+    <version>0.1.0</version>
+</dependency>
+```
+
+### Usage
 
 ```java
 for (Resource r : Resources.scan("/io/ytcode/").suffix(".xml").get()) {
@@ -25,8 +35,12 @@ ImmutableSet<Method> methods =classes.methods().filter(new Predicate<Method>() {
 ImmutableSet<Constructor<?>> constructors = classes.constructors().filter(new Predicate<Constructor<?>>() {...}).get();
 ```
 
-## TODO
+### TODO
 
 - Better Doc
-- More Test
-- More friendly API
+- More Tests
+- More user friendly APIs
+
+### License
+
+Reflect is licensed under the open-source [Apache 2.0 license](LICENSE).

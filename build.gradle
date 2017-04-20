@@ -57,12 +57,12 @@ uploadArchives {
       pom.project {
         name 'reflect'
         packaging 'jar'
-        description 'Java reflection utilities.'
+        description 'Java reflection utilities'
         url 'https://github.com/wangyuntao/reflect'
 
         scm {
           connection 'scm:git:git://github.com/wangyuntao/reflect.git'
-          developerConnection 'scm:git:ssh://github.com/wangyuntao/reflect.git'
+          developerConnection 'scm:git:ssh://github.com:wangyuntao/reflect.git'
           url 'https://github.com/wangyuntao/reflect'
         }
 
