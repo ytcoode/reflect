@@ -16,34 +16,23 @@
 
 package io.ytcode.reflect.resource;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static io.ytcode.reflect.util.Utils.predicateResourceNamePattern;
 import static io.ytcode.reflect.util.Utils.predicateResourceNameSuffix;
 import static io.ytcode.reflect.util.Utils.toClasses;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Supplier;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableSet;
 import io.ytcode.reflect.clazz.Classes;
-import io.ytcode.reflect.util.Filter;
+import io.ytcode.reflect.util.Filterable;
 
 /** @author wangyuntao */
-public class Resources implements Supplier<ImmutableSet<Resource>>, Filter<Resource, Resources> {
-
-  public static Resources scan(String... paths) {
-    return Scanner.paths(paths).scan();
-  }
+public class Resources extends Filterable<Resource, Resources> {
 
   public static Resources of(ImmutableSet<Resource> resources) {
     return new Resources(resources);
   }
 
-  private final ImmutableSet<Resource> resources;
-
   private Resources(ImmutableSet<Resource> resources) {
-    checkNotNull(resources);
-    this.resources = resources;
+    super(resources);
   }
 
   public Resources suffix(String suffix) {
@@ -54,17 +43,7 @@ public class Resources implements Supplier<ImmutableSet<Resource>>, Filter<Resou
     return filter(predicateResourceNamePattern(pattern));
   }
 
-  @Override
-  public Resources filter(Predicate<Resource> p) {
-    return of(FluentIterable.from(resources).filter(p).toSet());
-  }
-
-  @Override
-  public ImmutableSet<Resource> get() {
-    return resources;
-  }
-
   public Classes classes() {
-    return Classes.of(toClasses(suffix(".class").get()));
+    return Classes.of(toClasses(suffix(".class")));
   }
 }

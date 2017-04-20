@@ -17,7 +17,7 @@
 package io.ytcode.reflect.resource;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.ytcode.reflect.util.Utils.defaultClassLoader;
+import static io.ytcode.reflect.Reflect.pkgToResPath;
 
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
@@ -51,12 +51,15 @@ public class Scanner {
   private static final Splitter CLASS_PATH_ATTRIBUTE_SPLITTER =
       Splitter.on(" ").trimResults().omitEmptyStrings();
 
-  public static Scanner paths(String... paths) {
-    return from(ImmutableSet.of(defaultClassLoader()), ImmutableSet.copyOf(paths), true);
+  public static Scanner pkgs(String... pkgs) {
+    return paths(pkgToResPath(pkgs));
   }
 
-  public static Scanner from(ClassLoader classLoader, String path, boolean recursive) {
-    return from(ImmutableSet.of(classLoader), ImmutableSet.of(path), recursive);
+  public static Scanner paths(String... paths) {
+    return from(
+        ImmutableSet.of(Thread.currentThread().getContextClassLoader()),
+        ImmutableSet.copyOf(paths),
+        true);
   }
 
   public static Scanner from(

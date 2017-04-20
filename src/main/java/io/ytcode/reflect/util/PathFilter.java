@@ -74,10 +74,11 @@ public class PathFilter {
               public String apply(String s) {
                 s = CharMatcher.whitespace().trimFrom(s);
                 s = CharMatcher.is('/').trimFrom(s);
+                int l = s.length();
                 if (keepLeadingSlash) {
                   s = "/" + s;
                 }
-                return s + "/";
+                return l > 0 ? s + "/" : s;
               }
             })
         .toSet();

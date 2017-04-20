@@ -32,10 +32,6 @@ import java.lang.reflect.Method;
 /** @author wangyuntao */
 public class Utils {
 
-  public static ClassLoader defaultClassLoader() {
-    return Thread.currentThread().getContextClassLoader();
-  }
-
   public static Predicate<Resource> predicateResourceNameSuffix(final String suffix) {
     return Predicates.compose(
         new Predicate<String>() {
@@ -63,7 +59,7 @@ public class Utils {
         });
   }
 
-  public static Predicate<Class<?>> predicateClassSubtypeOf(final Class<?> cls) {
+  public static Predicate<Class<?>> predicateClassSubTypeOf(final Class<?> cls) {
     return new Predicate<Class<?>>() {
       @Override
       public boolean apply(Class<?> input) {
@@ -102,7 +98,7 @@ public class Utils {
     };
   }
 
-  public static ImmutableSet<Class<?>> toClasses(ImmutableSet<Resource> resources) {
+  public static ImmutableSet<Class<?>> toClasses(Iterable<Resource> resources) {
     return FluentIterable.from(resources)
         .transform(
             new Function<Resource, Class<?>>() {
@@ -121,7 +117,7 @@ public class Utils {
         .toSet();
   }
 
-  public static ImmutableSet<Field> toFields(ImmutableSet<Class<?>> classes) {
+  public static ImmutableSet<Field> toFields(Iterable<Class<?>> classes) {
     return FluentIterable.from(classes)
         .transformAndConcat(
             new Function<Class<?>, ImmutableSet<Field>>() {
@@ -133,7 +129,7 @@ public class Utils {
         .toSet();
   }
 
-  public static ImmutableSet<Method> toMethods(ImmutableSet<Class<?>> classes) {
+  public static ImmutableSet<Method> toMethods(Iterable<Class<?>> classes) {
     return FluentIterable.from(classes)
         .transformAndConcat(
             new Function<Class<?>, ImmutableSet<Method>>() {
@@ -145,7 +141,7 @@ public class Utils {
         .toSet();
   }
 
-  public static ImmutableSet<Constructor<?>> toConstructors(ImmutableSet<Class<?>> classes) {
+  public static ImmutableSet<Constructor<?>> toConstructors(Iterable<Class<?>> classes) {
     return FluentIterable.from(classes)
         .transformAndConcat(
             new Function<Class<?>, ImmutableSet<Constructor<?>>>() {

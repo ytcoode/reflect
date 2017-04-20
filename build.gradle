@@ -12,13 +12,15 @@ repositories {
 }
 
 dependencies {
-  compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+  compile 'org.slf4j:slf4j-api:1.7.25'
   compile 'com.google.guava:guava:20.0'
+
+  testCompile 'org.slf4j:slf4j-simple:1.7.25'
   testCompile 'junit:junit:4.12'
 }
 
 group = "io.ytcode"
-version = "0.1.0"
+version = "0.2.0-SNAPSHOT"
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7

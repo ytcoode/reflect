@@ -16,57 +16,40 @@
 
 package io.ytcode.reflect.clazz;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static io.ytcode.reflect.util.Utils.*;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Supplier;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableSet;
-import io.ytcode.reflect.util.Filter;
+import io.ytcode.reflect.util.Filterable;
 import java.lang.annotation.Annotation;
 
 /** @author wangyuntao */
-public class Classes implements Supplier<ImmutableSet<Class<?>>>, Filter<Class<?>, Classes> {
+public class Classes extends Filterable<Class<?>, Classes> {
 
   public static Classes of(ImmutableSet<Class<?>> classes) {
     return new Classes(classes);
   }
 
-  private final ImmutableSet<Class<?>> classes;
-
   private Classes(ImmutableSet<Class<?>> classes) {
-    checkNotNull(classes);
-    this.classes = classes;
+    super(classes);
   }
 
   public Classes subTypeOf(Class<?> cls) {
-    return filter(predicateClassSubtypeOf(cls));
+    return filter(predicateClassSubTypeOf(cls));
   }
 
   public Classes annotatedWith(Class<? extends Annotation> annotation) {
     return filter(predicateClassAnnotatedWith(annotation));
   }
 
-  @Override
-  public Classes filter(Predicate<Class<?>> p) {
-    return of(FluentIterable.from(classes).filter(p).toSet());
-  }
-
-  @Override
-  public ImmutableSet<Class<?>> get() {
-    return classes;
-  }
-
   public Fields fields() {
-    return Fields.of(toFields(classes));
+    return Fields.of(toFields(this));
   }
 
   public Methods methods() {
-    return Methods.of(toMethods(classes));
+    return Methods.of(toMethods(this));
   }
 
   public Constructors constructors() {
-    return Constructors.of(toConstructors(classes));
+    return Constructors.of(toConstructors(this));
   }
 }

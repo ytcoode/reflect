@@ -14,27 +14,27 @@
  * limitations under the License.
  */
 
-package io.ytcode.reflect.clazz;
+package io.ytcode.reflect.resource;
 
-import static io.ytcode.reflect.util.Utils.predicateFieldAnnotatedWith;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import com.google.common.collect.ImmutableSet;
-import io.ytcode.reflect.util.Filterable;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
+import org.junit.Test;
 
 /** @author wangyuntao */
-public class Fields extends Filterable<Field, Fields> {
+public class ResourcesTest {
 
-  public static Fields of(ImmutableSet<Field> fields) {
-    return new Fields(fields);
+  private final Resources resources = Scanner.pkgs("io.ytcode.reflect").scan();
+
+  @Test
+  public void testPattern() {
+    Resources r = resources.pattern(".*/Resources\\.class");
+    assertTrue(r.size() == 1);
+    assertEquals(r.classes().get().asList().get(0), Resources.class);
   }
 
-  private Fields(ImmutableSet<Field> fields) {
-    super(fields);
-  }
-
-  public Fields annotatedWith(final Class<? extends Annotation> annotation) {
-    return filter(predicateFieldAnnotatedWith(annotation));
+  @Test
+  public void testClasses() {
+    assertTrue(resources.classes().size() > 0);
   }
 }

@@ -16,11 +16,12 @@
 
 package io.ytcode.reflect;
 
+import static io.ytcode.reflect.Reflect.pkgToResPath;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.ImmutableList;
 import org.junit.Test;
-
 
 /** @author wangyuntao */
 public class ReflectTest {
@@ -30,5 +31,10 @@ public class ReflectTest {
     ImmutableList<Class<?>> l = Reflect.superTypes(ReflectTest.class).asList();
     assertTrue(l.size() == 1);
     assertTrue(l.get(0) == Object.class);
+  }
+
+  @Test
+  public void testPkgToResPath() {
+    assertEquals(pkgToResPath("io.ytcode.reflect"), "io/ytcode/reflect");
   }
 }

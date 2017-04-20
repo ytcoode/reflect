@@ -16,42 +16,25 @@
 
 package io.ytcode.reflect.clazz;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static io.ytcode.reflect.util.Utils.predicateMethodAnnotatedWith;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Supplier;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableSet;
-import io.ytcode.reflect.util.Filter;
+import io.ytcode.reflect.util.Filterable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 /** @author wangyuntao */
-public class Methods implements Supplier<ImmutableSet<Method>>, Filter<Method, Methods> {
+public class Methods extends Filterable<Method, Methods> {
 
   public static Methods of(ImmutableSet<Method> methods) {
     return new Methods(methods);
   }
 
-  private final ImmutableSet<Method> methods;
-
   private Methods(ImmutableSet<Method> methods) {
-    checkNotNull(methods);
-    this.methods = methods;
+    super(methods);
   }
 
   public Methods annotatedWith(final Class<? extends Annotation> annotation) {
     return filter(predicateMethodAnnotatedWith(annotation));
-  }
-
-  @Override
-  public Methods filter(Predicate<Method> p) {
-    return of(FluentIterable.from(methods).filter(p).toSet());
-  }
-
-  @Override
-  public ImmutableSet<Method> get() {
-    return methods;
   }
 }

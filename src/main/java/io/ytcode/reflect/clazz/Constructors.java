@@ -16,43 +16,25 @@
 
 package io.ytcode.reflect.clazz;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static io.ytcode.reflect.util.Utils.predicateConstructorAnnotatedWith;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Supplier;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableSet;
-import io.ytcode.reflect.util.Filter;
+import io.ytcode.reflect.util.Filterable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 
 /** @author wangyuntao */
-public class Constructors
-    implements Supplier<ImmutableSet<Constructor<?>>>, Filter<Constructor<?>, Constructors> {
+public class Constructors extends Filterable<Constructor<?>, Constructors> {
 
   public static Constructors of(ImmutableSet<Constructor<?>> constructors) {
     return new Constructors(constructors);
   }
 
-  private final ImmutableSet<Constructor<?>> constructors;
-
   private Constructors(ImmutableSet<Constructor<?>> constructors) {
-    checkNotNull(constructors);
-    this.constructors = constructors;
+    super(constructors);
   }
 
   public Constructors annotatedWith(final Class<? extends Annotation> annotation) {
     return filter(predicateConstructorAnnotatedWith(annotation));
-  }
-
-  @Override
-  public Constructors filter(Predicate<Constructor<?>> p) {
-    return of(FluentIterable.from(constructors).filter(p).toSet());
-  }
-
-  @Override
-  public ImmutableSet<Constructor<?>> get() {
-    return constructors;
   }
 }

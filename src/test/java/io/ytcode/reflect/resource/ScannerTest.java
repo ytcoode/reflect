@@ -14,14 +14,29 @@
  * limitations under the License.
  */
 
-package io.ytcode.reflect.util;
+package io.ytcode.reflect.resource;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Supplier;
-import com.google.common.collect.ImmutableSet;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
 
 /** @author wangyuntao */
-public interface Filter<E, T extends Supplier<ImmutableSet<E>>> {
+public class ScannerTest {
 
-  T filter(Predicate<E> p);
+  @Test
+  public void testScanPkgs() {
+    Resources r = Scanner.pkgs("io.ytcode.reflect").scan();
+    assertTrue(r.classes().get().contains(Scanner.class));
+  }
+
+  @Test
+  public void testScanPaths() {
+    Resources r = Scanner.paths("/io/ytcode/reflect").scan();
+    assertTrue(r.classes().get().contains(Scanner.class));
+  }
+
+  @Test
+  public void testScanRootPath() {
+    assertTrue(Scanner.paths("/").scan().size() > 0);
+  }
 }

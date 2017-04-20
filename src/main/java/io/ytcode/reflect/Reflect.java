@@ -136,4 +136,16 @@ public class Reflect {
     }
     return b.build();
   }
+
+  public static String pkgToResPath(String pkg) {
+    return pkg.replace('.', '/');
+  }
+
+  public static String[] pkgToResPath(String... pkgs) {
+    String[] r = new String[pkgs.length];
+    for (int i = 0; i < pkgs.length; i++) {
+      r[i] = pkgToResPath(pkgs[i]);
+    }
+    return r;
+  }
 }
