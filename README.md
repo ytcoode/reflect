@@ -1,46 +1,134 @@
-# Java reflection utilities (Beta).
+# Reflect
 
-Using it you now can scan your classpath, get resources, classes, fields, methods and constructors filtered by your predicates.
+***For making life better and easier.***
 
-It's immutable, fluent, simple, inspired by Guava [ClassPath](https://github.com/google/guava/blob/master/guava/src/com/google/common/reflect/ClassPath.java) and [reflections](https://github.com/ronmamo/reflections).
+[![Maven Release][maven-shield]][maven-link]
 
-### Maven
+## What is Reflect?
 
-```xml
-<dependency>
-    <groupId>io.ytcode</groupId>
-    <artifactId>reflect</artifactId>
-    <version>0.1.0</version>
-</dependency>
-```
+Reflect is a classpath scanner and filter, using it you can scan your classpath, filter your resources, classes, fields, methods and constructors.
 
-### Usage
+It's ***immutable, fluent and simple***, so it's also thread safe and easy to use.
+
+It's inspired by [Reflections][reflections] and [Guava ClassPath][guava-classpath].
+
+## Usage
 
 ```java
-for (Resource r : Resources.scan("/io/ytcode/").suffix(".xml").get()) {
-  System.out.println(r.name());
+// Scanner
+Resources rs1 = Scanner.pkgs("io.ytcode.reflect").scan();
+for (Resource r : rs1) {
+  System.out.println(r);
 }
+
+Resources rs2 = Scanner.paths("/io/ytcode/reflect/").scan();
+System.out.println(rs2.size());
+
+Resources rs3 = Scanner.paths("/").scan();
+System.out.println(rs3.size());
+
+Resources rs4 =
+    Scanner.from(
+            ImmutableSet.of(
+                ClassLoader.getSystemClassLoader(),
+                ClassLoader.getSystemClassLoader().getParent()),
+            ImmutableSet.of("/io/ytcode/reflect/clazz/", "/io/ytcode/reflect/resource/"),
+            false)
+        .scan();
+System.out.println(rs4.size());
 ```
 
 ```java
-Classes classes = Resources.scan("/").classes();
-for (Class<?> c : classes.subTypeOf(Supplier.class).annotatedWith(SomeAnnotation.class).get()) {
+// Resources
+Resources rs1 = Scanner.paths("/io/ytcode/reflect/").scan();
+
+Resources rs2 = rs1.pattern(".*/resource/.*").suffix(".class");
+System.out.println(rs2.size());
+
+Resources rs3 =
+    rs1.filter(
+        new Predicate<Resource>() {
+          @Override
+          public boolean apply(Resource r) {
+            return r.name().endsWith(".xml");
+          }
+        });
+System.out.println(rs3.size());
+```
+
+```java
+// Classes
+Classes cs1 = Scanner.paths("/io/ytcode/reflect/").scan().classes();
+
+Classes cs2 = cs1.subTypeOf(Filterable.class);
+for (Class<?> c : cs2) {
   System.out.println(c);
 }
+
+Classes cs3 = cs1.annotatedWith(Beta.class).filter(Predicates.<Class<?>>equalTo(Classes.class));
+System.out.println(cs3.size());
 ```
 
 ```java
-ImmutableSet<Field> fields = classes.fields().annotatedWith(SomeAnnotation.class).filter(new Predicate<Field>() {...}).get();
-ImmutableSet<Method> methods =classes.methods().filter(new Predicate<Method>() {...}).get();
-ImmutableSet<Constructor<?>> constructors = classes.constructors().filter(new Predicate<Constructor<?>>() {...}).get();
+// Fields
+Fields fs1 = Scanner.paths("/io/ytcode/reflect/").scan().classes().fields();
+
+Fields fs2 =
+    fs1.annotatedWith(Beta.class)
+        .filter(
+            new Predicate<Field>() {
+              @Override
+              public boolean apply(Field f) {
+                return Modifier.isStatic(f.getModifiers());
+              }
+            });
+
+System.out.println(fs2);
 ```
 
-### TODO
+```java
+// Methods
+Methods ms1 = Scanner.paths("/io/ytcode/reflect/").scan().classes().methods();
 
-- Better Doc
-- More Tests
-- More user friendly APIs
+Methods ms2 =
+    ms1.filter(
+        new Predicate<Method>() {
+          @Override
+          public boolean apply(Method m) {
+            return Invokable.from(m).isPublic();
+          }
+        });
 
-### License
+System.out.println(ms2);
+```
+
+```java
+// Constructors
+Constructors cs1 = Scanner.paths("/io/ytcode/reflect/").scan().classes().constructors();
+
+Constructors cs2 =
+    cs1.filter(
+        new Predicate<Constructor<?>>() {
+          @Override
+          public boolean apply(Constructor<?> input) {
+            return Invokable.from(input).isPublic();
+          }
+        });
+
+System.out.println(cs2);
+```
+
+## License
 
 Reflect is licensed under the open-source [Apache 2.0 license](LICENSE).
+
+## Contributing
+
+Please [see the guidelines for contributing](CONTRIBUTING.md) before creating pull requests.
+
+<!-- references -->
+
+[guava-classpath]: https://github.com/google/guava/blob/master/guava/src/com/google/common/reflect/ClassPath.java
+[reflections]: https://github.com/ronmamo/reflections
+[maven-shield]: https://img.shields.io/maven-central/v/io.ytcode/reflect.png
+[maven-link]: http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22io.ytcode%22%20AND%20a%3A%22reflect%22

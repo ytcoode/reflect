@@ -18,6 +18,7 @@ package io.ytcode.reflect.util;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
 import com.google.common.base.Supplier;
 import com.google.common.collect.FluentIterable;
@@ -64,5 +65,10 @@ public abstract class Filterable<E, F extends Filterable<E, F>>
 
   public final int size() {
     return set.size();
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(getClass()).add("size", size()).toString();
   }
 }
