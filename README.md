@@ -2,6 +2,7 @@
 
 ***For making life better and easier.***
 
+[![Build Status][travis-shield]][travis-link]
 [![Maven Release][maven-shield]][maven-link]
 
 ## What is Reflect?
@@ -128,7 +129,9 @@ Please [see the guidelines for contributing](CONTRIBUTING.md) before creating pu
 
 <!-- references -->
 
-[guava-classpath]: https://github.com/google/guava/blob/master/guava/src/com/google/common/reflect/ClassPath.java
-[reflections]: https://github.com/ronmamo/reflections
+[travis-shield]: https://img.shields.io/travis/wangyuntao/reflect.png
+[travis-link]: https://travis-ci.org/wangyuntao/reflect
 [maven-shield]: https://img.shields.io/maven-central/v/io.ytcode/reflect.png
 [maven-link]: http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22io.ytcode%22%20AND%20a%3A%22reflect%22
+[guava-classpath]: https://github.com/google/guava/blob/master/guava/src/com/google/common/reflect/ClassPath.java
+[reflections]: https://github.com/ronmamo/reflections
