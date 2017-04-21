@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableSet;
 import io.ytcode.reflect.Reflect;
 import io.ytcode.reflect.resource.Resource;
 import java.lang.annotation.Annotation;
+import java.lang.annotation.Inherited;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -70,7 +71,22 @@ public class Utils {
 
   public static Predicate<Class<?>> predicateClassAnnotatedWith(
       final Class<? extends Annotation> annotation) {
-    return predicateAnnotatedWith(annotation);
+    if (!annotation.isAnnotationPresent(Inherited.class)) {
+      return predicateAnnotatedWith(annotation);
+    }
+
+    return new Predicate<Class<?>>() {
+      @Override
+      public boolean apply(Class<?> c) {
+        while (c != null) {
+          if (c.isAnnotationPresent(annotation)) {
+            return true;
+          }
+          c = c.getSuperclass();
+        }
+        return false;
+      }
+    };
   }
 
   public static Predicate<Field> predicateFieldAnnotatedWith(

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.ytcode.reflect.example;
+package io.ytcode.reflect.util;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Predicate;
@@ -28,7 +28,6 @@ import io.ytcode.reflect.clazz.Methods;
 import io.ytcode.reflect.resource.Resource;
 import io.ytcode.reflect.resource.Resources;
 import io.ytcode.reflect.resource.Scanner;
-import io.ytcode.reflect.util.Filterable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
