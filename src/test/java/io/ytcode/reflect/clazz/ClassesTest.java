@@ -21,16 +21,21 @@ import static org.junit.Assert.assertTrue;
 
 import io.ytcode.reflect.util.TestInherited;
 import io.ytcode.reflect.util.TestNotInherited;
+import java.lang.reflect.Modifier;
+import java.util.List;
 import org.junit.Test;
 
-import java.util.List;
-
-/**
- * @author wangyuntao
- */
+/** @author wangyuntao */
 public class ClassesTest {
 
   private final Classes cs = filterInnerClasses(ClassesTest.class);
+
+  @Test
+  public void testSubTypeOf() {
+    Classes cs1 = cs.subTypeOf(T1.class);
+    assertTrue(cs1.size() == 1);
+    assertTrue(cs1.get().asList().get(0) == T2.class);
+  }
 
   @Test
   public void testAnnotatedWithNotInherited() {
@@ -53,17 +58,28 @@ public class ClassesTest {
     }
   }
 
-  @TestNotInherited
-  private static class T1 {
+  @Test
+  public void testModifiers() {
+    Classes cs1 = cs.modifiers(Modifier.PUBLIC, Modifier.ABSTRACT);
+    assertTrue(cs1.size() == 1);
+    assertTrue(cs1.get().asList().get(0) == T5.class);
+
+    Classes cs2 = cs.modifiers(Modifier.PRIVATE, Modifier.INTERFACE);
+    assertTrue(cs2.size() == 1);
+    assertTrue(cs2.get().asList().get(0) == T6.class);
   }
 
-  private static class T2 extends T1 {
-  }
+  @TestNotInherited
+  private static class T1 {}
+
+  private static class T2 extends T1 {}
 
   @TestInherited
-  private static class T3 {
-  }
+  private static class T3 {}
 
-  private static class T4 extends T3 {
-  }
+  private static class T4 extends T3 {}
+
+  public abstract static class T5 {}
+
+  private interface T6 {}
 }

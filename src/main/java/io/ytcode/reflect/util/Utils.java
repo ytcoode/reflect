@@ -89,21 +89,6 @@ public class Utils {
     };
   }
 
-  public static Predicate<Field> predicateFieldAnnotatedWith(
-      final Class<? extends Annotation> annotation) {
-    return predicateAnnotatedWith(annotation);
-  }
-
-  public static Predicate<Method> predicateMethodAnnotatedWith(
-      final Class<? extends Annotation> annotation) {
-    return predicateAnnotatedWith(annotation);
-  }
-
-  public static Predicate<Constructor<?>> predicateConstructorAnnotatedWith(
-      final Class<? extends Annotation> annotation) {
-    return predicateAnnotatedWith(annotation);
-  }
-
   public static <T extends AnnotatedElement> Predicate<T> predicateAnnotatedWith(
       final Class<? extends Annotation> annotation) {
     return new Predicate<T>() {
@@ -167,5 +152,13 @@ public class Utils {
               }
             })
         .toSet();
+  }
+
+  public static int combineModifiers(int... modifiers) {
+    int r = 0;
+    for (int modifier : modifiers) {
+      r |= modifier;
+    }
+    return r;
   }
 }

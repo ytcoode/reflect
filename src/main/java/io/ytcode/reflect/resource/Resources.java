@@ -21,8 +21,8 @@ import static io.ytcode.reflect.util.Utils.predicateResourceNameSuffix;
 import static io.ytcode.reflect.util.Utils.toClasses;
 
 import com.google.common.collect.ImmutableSet;
+import io.ytcode.reflect.Filterable;
 import io.ytcode.reflect.clazz.Classes;
-import io.ytcode.reflect.util.Filterable;
 
 /** @author wangyuntao */
 public class Resources extends Filterable<Resource, Resources> {

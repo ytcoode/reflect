@@ -17,16 +17,19 @@
 package io.ytcode.reflect.clazz;
 
 import com.google.common.collect.ImmutableSet;
-import java.lang.reflect.Constructor;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Member;
 
 /** @author wangyuntao */
-public class Constructors extends Members<Constructor<?>, Constructors> {
+public abstract class Members<E extends Member & AnnotatedElement, M extends Members<E, M>>
+    extends AnnotatedElements<E, M> {
 
-  public static Constructors of(ImmutableSet<Constructor<?>> constructors) {
-    return new Constructors(constructors);
+  protected Members(ImmutableSet<E> set) {
+    super(set);
   }
 
-  private Constructors(ImmutableSet<Constructor<?>> constructors) {
-    super(constructors);
+  @Override
+  protected final int getModifier(E e) {
+    return e.getModifiers();
   }
 }

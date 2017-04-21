@@ -16,15 +16,11 @@
 
 package io.ytcode.reflect.clazz;
 
-import static io.ytcode.reflect.util.Utils.predicateMethodAnnotatedWith;
-
 import com.google.common.collect.ImmutableSet;
-import io.ytcode.reflect.util.Filterable;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 /** @author wangyuntao */
-public class Methods extends Filterable<Method, Methods> {
+public class Methods extends Members<Method, Methods> {
 
   public static Methods of(ImmutableSet<Method> methods) {
     return new Methods(methods);
@@ -32,9 +28,5 @@ public class Methods extends Filterable<Method, Methods> {
 
   private Methods(ImmutableSet<Method> methods) {
     super(methods);
-  }
-
-  public Methods annotatedWith(final Class<? extends Annotation> annotation) {
-    return filter(predicateMethodAnnotatedWith(annotation));
   }
 }

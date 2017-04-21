@@ -16,15 +16,11 @@
 
 package io.ytcode.reflect.clazz;
 
-import static io.ytcode.reflect.util.Utils.predicateFieldAnnotatedWith;
-
 import com.google.common.collect.ImmutableSet;
-import io.ytcode.reflect.util.Filterable;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
 /** @author wangyuntao */
-public class Fields extends Filterable<Field, Fields> {
+public class Fields extends Members<Field, Fields> {
 
   public static Fields of(ImmutableSet<Field> fields) {
     return new Fields(fields);
@@ -32,9 +28,5 @@ public class Fields extends Filterable<Field, Fields> {
 
   private Fields(ImmutableSet<Field> fields) {
     super(fields);
-  }
-
-  public Fields annotatedWith(final Class<? extends Annotation> annotation) {
-    return filter(predicateFieldAnnotatedWith(annotation));
   }
 }

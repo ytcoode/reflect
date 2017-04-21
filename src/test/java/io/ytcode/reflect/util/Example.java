@@ -21,6 +21,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.Invokable;
+import io.ytcode.reflect.Filterable;
 import io.ytcode.reflect.clazz.Classes;
 import io.ytcode.reflect.clazz.Constructors;
 import io.ytcode.reflect.clazz.Fields;
@@ -106,6 +107,9 @@ public class Example {
 
     Classes cs3 = cs1.annotatedWith(Beta.class).filter(Predicates.<Class<?>>equalTo(Classes.class));
     System.out.println(cs3.size());
+
+    Classes cs4 = cs1.modifiers(Modifier.PUBLIC, Modifier.ABSTRACT);
+    System.out.println(cs4.size());
   }
 
   private static void fields() {
@@ -120,8 +124,10 @@ public class Example {
                     return Modifier.isStatic(f.getModifiers());
                   }
                 });
-
     System.out.println(fs2);
+
+    Fields fs3 = fs1.modifiers(Modifier.PUBLIC, Modifier.STATIC);
+    System.out.println(fs3);
   }
 
   private static void methods() {
@@ -135,8 +141,10 @@ public class Example {
                 return Invokable.from(m).isPublic();
               }
             });
-
     System.out.println(ms2);
+
+    Methods ms3 = ms1.modifiers(Modifier.PUBLIC, Modifier.STATIC);
+    System.out.println(ms3);
   }
 
   private static void constructors() {
@@ -150,7 +158,9 @@ public class Example {
                 return Invokable.from(input).isPublic();
               }
             });
-
     System.out.println(cs2);
+
+    Constructors cs3 = cs1.modifiers(Modifier.PUBLIC);
+    System.out.println(cs3);
   }
 }

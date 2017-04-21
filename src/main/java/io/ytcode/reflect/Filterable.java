@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.ytcode.reflect.util;
+package io.ytcode.reflect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -23,6 +23,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Supplier;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableSet;
+import io.ytcode.reflect.util.ReflectException;
 import java.lang.reflect.Constructor;
 import java.util.Iterator;
 

@@ -68,6 +68,9 @@ for (Class<?> c : cs2) {
 
 Classes cs3 = cs1.annotatedWith(Beta.class).filter(Predicates.<Class<?>>equalTo(Classes.class));
 System.out.println(cs3.size());
+
+Classes cs4 = cs1.modifiers(Modifier.PUBLIC, Modifier.ABSTRACT);
+System.out.println(cs4.size());
 ```
 
 ```java
@@ -83,8 +86,10 @@ Fields fs2 =
                 return Modifier.isStatic(f.getModifiers());
               }
             });
-
 System.out.println(fs2);
+
+Fields fs3 = fs1.modifiers(Modifier.PUBLIC, Modifier.STATIC);
+System.out.println(fs3);
 ```
 
 ```java
@@ -99,8 +104,10 @@ Methods ms2 =
             return Invokable.from(m).isPublic();
           }
         });
-
 System.out.println(ms2);
+
+Methods ms3 = ms1.modifiers(Modifier.PUBLIC, Modifier.STATIC);
+System.out.println(ms3);
 ```
 
 ```java
@@ -115,8 +122,10 @@ Constructors cs2 =
             return Invokable.from(input).isPublic();
           }
         });
-
 System.out.println(cs2);
+
+Constructors cs3 = cs1.modifiers(Modifier.PUBLIC);
+System.out.println(cs3);
 ```
 
 ## License

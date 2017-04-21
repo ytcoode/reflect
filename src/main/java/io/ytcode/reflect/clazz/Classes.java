@@ -19,11 +19,10 @@ package io.ytcode.reflect.clazz;
 import static io.ytcode.reflect.util.Utils.*;
 
 import com.google.common.collect.ImmutableSet;
-import io.ytcode.reflect.util.Filterable;
 import java.lang.annotation.Annotation;
 
 /** @author wangyuntao */
-public class Classes extends Filterable<Class<?>, Classes> {
+public class Classes extends AnnotatedElements<Class<?>, Classes> {
 
   public static Classes of(ImmutableSet<Class<?>> classes) {
     return new Classes(classes);
@@ -37,8 +36,13 @@ public class Classes extends Filterable<Class<?>, Classes> {
     return filter(predicateClassSubTypeOf(cls));
   }
 
-  public Classes annotatedWith(Class<? extends Annotation> annotation) {
+  public Classes annotatedWith(final Class<? extends Annotation> annotation) {
     return filter(predicateClassAnnotatedWith(annotation));
+  }
+
+  @Override
+  protected int getModifier(Class<?> c) {
+    return c.getModifiers();
   }
 
   public Fields fields() {
