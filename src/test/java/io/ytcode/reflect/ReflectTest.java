@@ -16,8 +16,8 @@
 
 package io.ytcode.reflect;
 
+import static com.google.common.truth.Truth.assertThat;
 import static io.ytcode.reflect.Reflect.pkgToResPath;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.ImmutableList;
@@ -35,6 +35,6 @@ public class ReflectTest {
 
   @Test
   public void testPkgToResPath() {
-    assertEquals(pkgToResPath("io.ytcode.reflect"), "io/ytcode/reflect");
+    assertThat(pkgToResPath("io.ytcode.reflect")).isEqualTo("io/ytcode/reflect");
   }
 }
