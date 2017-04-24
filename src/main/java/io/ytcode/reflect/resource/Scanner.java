@@ -26,7 +26,6 @@ import com.google.common.collect.Sets;
 import io.ytcode.reflect.util.PathFilter;
 import io.ytcode.reflect.util.ReflectException;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Enumeration;
@@ -102,7 +101,7 @@ public class Scanner {
         for (URL url : urlClassLoader.getURLs()) {
           try {
             scan(url, classLoader);
-          } catch (IOException e) {
+          } catch (Exception e) {
             throw new ReflectException(e);
           }
         }
@@ -110,13 +109,13 @@ public class Scanner {
       return b.build();
     }
 
-    private void scan(URL url, ClassLoader loader) throws IOException {
+    private void scan(URL url, ClassLoader loader) throws Exception {
       if (!url.getProtocol().equals("file")) {
         logger.error("Illegal url, currently only file:// url is supported! {}", url);
         return;
       }
 
-      File file = new File(url.getFile());
+      File file = new File(url.toURI());
       file = file.getCanonicalFile();
 
       if (!scannedFiles.add(file)) {
@@ -155,7 +154,7 @@ public class Scanner {
       }
     }
 
-    private void scanJar(File file, ClassLoader loader) throws IOException {
+    private void scanJar(File file, ClassLoader loader) throws Exception {
       try (JarFile jarFile = new JarFile(file)) {
         scanJar(jarFile, loader);
         scanJarManifest(file, jarFile.getManifest(), loader);
@@ -173,7 +172,7 @@ public class Scanner {
     }
 
     private void scanJarManifest(File file, Manifest manifest, ClassLoader loader)
-        throws IOException {
+        throws Exception {
       if (manifest == null) {
         return;
       }
